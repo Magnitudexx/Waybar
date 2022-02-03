@@ -96,6 +96,7 @@ libpulse = dependency('libpulse', required: get_option('pulseaudio'))
 libudev = dependency('libudev', required: get_option('libudev'))
 libevdev = dependency('libevdev', required: get_option('libevdev'))
 libmpdclient = dependency('libmpdclient', required: get_option('mpd'))
+libnm = dependency('libnm')
 xkbregistry = dependency('xkbregistry')
 
 libsndio = compiler.find_library('sndio', required: get_option('sndio'))
@@ -233,6 +234,11 @@ if libmpdclient.found()
     src_files += 'src/modules/mpd/state.cpp'
 endif
 
+if libnm.found()
+    add_project_arguments('-DHAVE_LIBNM', language: 'cpp')
+    src_files += 'src/modules/wg.cpp'
+endif
+
 if gtk_layer_shell.found()
     add_project_arguments('-DHAVE_GTK_LAYER_SHELL', language: 'cpp')
 endif
@@ -292,10 +298,11 @@ executable(
         libepoll,
         libmpdclient,
         libevdev,
+        libnm,
         gtk_layer_shell,
         libsndio,
         tz_dep,
-		xkbregistry 
+		xkbregistry
     ],
     include_directories: [include_directories('include')],
     install: true,

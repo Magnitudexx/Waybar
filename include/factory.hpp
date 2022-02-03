@@ -51,6 +51,9 @@
 #ifdef HAVE_LIBSNDIO
 #include "modules/sndio.hpp"
 #endif
+#ifdef HAVE_LIBNM
+#include "modules/wg.hpp"
+#endif
 #ifdef HAVE_GIO_UNIX
 #include "modules/inhibitor.hpp"
 #endif
